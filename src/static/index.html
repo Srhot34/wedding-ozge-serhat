@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Özge & Serhat Evleniyor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Ö & S</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">Ana Sayfa</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#details" class="nav-link">Düğün Bilgileri</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#gallery" class="nav-link">Galeri</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#upload" class="nav-link">Fotoğraf Yükle</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">İletişim</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">Özge & Serhat</h1>
+                <p class="hero-subtitle">Evleniyor</p>
+                <div class="wedding-dates">
+                    <div class="date-card">
+                        <h3>Malatya Düğün Tarihi</h3>
+                        <p class="date">1 Ağustos 2025</p>
+                    </div>
+                    <div class="date-card">
+                        <h3>Ünye Düğün Töreni</h3>
+                        <p class="date">9 Ağustos 2025</p>
+                    </div>
+                </div>
+                <div class="countdown-container">
+                    <h3>Düğüne Kalan Süre</h3>
+                    <div class="countdown" id="countdown">
+                        <div class="time-unit">
+                            <span id="days">00</span>
+                            <label>Gün</label>
+                        </div>
+                        <div class="time-unit">
+                            <span id="hours">00</span>
+                            <label>Saat</label>
+                        </div>
+                        <div class="time-unit">
+                            <span id="minutes">00</span>
+                            <label>Dakika</label>
+                        </div>
+                        <div class="time-unit">
+                            <span id="seconds">00</span>
+                            <label>Saniye</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-background"></div>
+    </section>
+
+    <!-- Our Story Section -->
+    <section id="story" class="story-section">
+        <div class="container">
+            <h2 class="section-title">Hikayemiz</h2>
+            <div class="story-content">
+                <div class="story-text">
+                    <p>Hayatımızın en güzel anını sizlerle paylaşmak istiyoruz. Özge ve Serhat olarak, aşkımızın taçlandığı bu özel günde sizleri de aramızda görmekten büyük mutluluk duyacağız.</p>
+                    <p>Bu özel günümüzde çektiğiniz fotoğrafları ve videoları bizimle paylaşarak anılarımızı daha da güzelleştirmenizi rica ediyoruz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wedding Details Section -->
+    <section id="details" class="details-section">
+        <div class="container">
+            <h2 class="section-title">Düğün Bilgileri</h2>
+            <div class="details-grid">
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Kına Düğün Töreni</h3>
+                    <p class="detail-date">1 Ağustos 2025</p>
+                    <p class="detail-time">Saat: 14:00</p>
+                    <p class="detail-location">Seyr-i Göl Düğün Salonu</p>
+                    <button class="detail-btn" onclick="openMap('nikah')">Haritada Göster</button>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-icon">
+                        <i class="fas fa-rings-wedding"></i>
+                    </div>
+                    <h3>Düğün Töreni</h3>
+                    <p class="detail-date">9 Ağustos 2025</p>
+                    <p class="detail-time">Saat: 19:00</p>
+                    <p class="detail-location">Atakale Kır Düğün Bahçesi</p>
+                    <button class="detail-btn" onclick="openMap('dugun')">Haritada Göster</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Galeri</h2>
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Galeri fotoğrafları dinamik olarak yüklenecek -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Upload Section -->
+    <section id="upload" class="upload-section">
+        <div class="container">
+            <h2 class="section-title">Fotoğraf & Video Yükle</h2>
+            <div class="upload-content">
+                <div class="upload-text">
+                    <h3>Anılarınızı Bizimle Paylaşın</h3>
+                    <p>Düğün günümüzde çektiğiniz fotoğraf ve videoları yükleyerek özel anlarımızı daha da güzelleştirin.</p>
+                </div>
+                <div class="upload-form">
+                    <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/upload">
+                        <div class="form-group">
+                            <label for="uploaderName">Adınız:</label>
+                            <input type="text" id="uploaderName" name="uploaderName" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="fileUpload">Dosya Seçin:</label>
+                            <div class="upload-zone" id="uploadZone">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p><strong>Dosyaları buraya sürükleyin</strong></p>
+                                <p>veya tıklayarak seçin</p>
+                                <input type="file" id="fileUpload" name="files" multiple accept="image/*,video/*" style="display: none;" />
+                                <div class="file-info">
+                                    <small>Fotoğraf ve video dosyalarını seçebilirsiniz. Maksimum dosya boyutu: 50MB</small>
+                                </div>
+                            </div>
+                            <div class="file-list" id="fileList"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mesajınız (İsteğe bağlı):</label>
+                            <textarea id="message" name="message" rows="3" placeholder="Bu özel anla ilgili bir mesajınız varsa..."></textarea>
+                        </div>
+                        <button type="submit" class="upload-btn">
+                            <i class="fas fa-upload"></i>
+                            Yükle
+                        </button>
+                    </form>
+                    <div id="uploadProgress" class="upload-progress" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p id="progressText">Yükleniyor...</p>
+                    </div>
+                    <div id="uploadResult" class="upload-result" style="display: none;"></div>
+                    <div id="uploadPreview" class="upload-preview"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">İletişim</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Telefon</h4>
+                            <p>+90 544 249 46 94</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>E-posta</h4>
+                            <p>serhatsezgul@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Adınız" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="E-posta Adresiniz" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" rows="5" placeholder="Mesajınız" required></textarea>
+                        </div>
+                        <button type="submit" class="contact-btn">Mesaj Gönder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2025 Özge & Serhat. Tüm hakları saklıdır.</p>
+                </div>
+                <div class="footer-social">
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

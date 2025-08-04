@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Özge & Serhat Evleniyor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            background: #e0e0e0;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .tab.active {
+            background: #D4AF37;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .upload-item, .contact-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: #f9f9f9;
+        }
+
+        .upload-header, .contact-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-info, .contact-info {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .approve-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .approve-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .file-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .download-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bulk-download {
+            background: #28a745;
+            color: white;
+        }
+
+        .bulk-download:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .refresh-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .refresh-btn:hover {
+            background: #5a6268;
+        }
+
+        .individual-download {
+            background: #007bff;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.8rem;
+        }
+
+        .individual-download:hover {
+            background: #0056b3;
+        }
+
+        .upload-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #D4AF37;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Admin Panel - Özge & Serhat Evleniyor</h1>
+    </div>
+
+    <div class="container">
+        <div class="stats-grid" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalUploads">-</div>
+                <div class="stat-label">Toplam Yükleme</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="approvedUploads">-</div>
+                <div class="stat-label">Onaylanan</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalContacts">-</div>
+                <div class="stat-label">Mesajlar</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="unreadContacts">-</div>
+                <div class="stat-label">Okunmamış</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('uploads')">Yüklenen Dosyalar</button>
+            <button class="tab" onclick="showTab('contacts')">Mesajlar</button>
+        </div>
+
+        <div id="uploads" class="tab-content active">
+            <div class="section-header">
+                <h2>Yüklenen Dosyalar</h2>
+                <div class="download-buttons">
+                    <button onclick="downloadAll()" class="download-btn bulk-download">
+                        <i class="fas fa-download"></i> Tümünü İndir (ZIP)
+                    </button>
+                    <button onclick="refreshUploads()" class="download-btn refresh-btn">
+                        <i class="fas fa-sync-alt"></i> Yenile
+                    </button>
+                </div>
+            </div>
+            <div id="uploadsContent">
+                <p>Yüklemeler yükleniyor...</p>
+            </div>
+        </div>
+
+        <div id="contacts" class="tab-content">
+            <h2>İletişim Mesajları</h2>
+            <div id="contactsContainer" class="loading">Yükleniyor...</div>
+        </div>
+    </div>
+
+    <script>
+        let uploads = [];
+        let contacts = [];
+
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        async function loadUploads() {
+            try {
+                const response = await fetch('/api/admin/uploads');
+                uploads = await response.json();
+                renderUploads();
+                updateStats();
+            } catch (error) {
+                document.getElementById('uploadsContent').innerHTML = 'Yüklemeler alınırken hata oluştu.';
+            }
+        }
+
+        async function loadContacts() {
+            try {
+                const response = await fetch('/api/admin/contacts');
+                contacts = await response.json();
+                renderContacts();
+                updateStats();
+            } catch (error) {
+                document.getElementById('contactsContainer').innerHTML = 'Mesajlar alınırken hata oluştu.';
+            }
+        }
+
+        function renderUploads() {
+            const content = document.getElementById('uploadsContent');
+            
+            if (uploads.length === 0) {
+                content.innerHTML = '<p>Henüz yükleme yapılmamış.</p>';
+                return;
+            }
+
+            const html = uploads.map(upload => `
+                <div class="upload-item">
+                    <div class="upload-info">
+                        <h4>${upload.original_filename}</h4>
+                        <p>Yükleyen: ${upload.uploader_name}</p>
+                        <p>Tarih: ${new Date(upload.upload_date).toLocaleString('tr-TR')}</p>
+                        <p>Boyut: ${formatFileSize(upload.file_size)}</p>
+                        <p>Tür: ${upload.file_type === 'image' ? '🖼️ Fotoğraf' : '🎥 Video'}</p>
+                        <p>Durum: ${upload.is_approved ? '✅ Onaylı' : '⏳ Beklemede'}</p>
+                        ${upload.message ? `<p>Mesaj: <em>${upload.message}</em></p>` : ''}
+                    </div>
+                    <div class="upload-actions">
+                        <button onclick="downloadFile(${upload.id})" class="download-btn individual-download">
+                            <i class="fas fa-download"></i> İndir
+                        </button>
+                        <button onclick="approveUpload(${upload.id})" class="approve-btn">
+                            ${upload.is_approved ? 'Onaylı' : 'Onayla'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            content.innerHTML = html;
+        }
+
+        function renderContacts() {
+            const container = document.getElementById('contactsContainer');
+            
+            if (contacts.length === 0) {
+                container.innerHTML = '<p>Henüz mesaj yok.</p>';
+                return;
+            }
+
+            container.innerHTML = contacts.map(contact => `
+                <div class="contact-item">
+                    <div class="contact-header">
+                        <strong>${contact.name}</strong>
+                        <span class="contact-info">${new Date(contact.created_date).toLocaleString('tr-TR')}</span>
+                    </div>
+                    <div class="contact-info">
+                        <p><strong>E-posta:</strong> ${contact.email}</p>
+                        <p><strong>Mesaj:</strong></p>
+                        <p>${contact.message}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function approveUpload(uploadId) {
+            try {
+                const response = await fetch(`/api/admin/uploads/${uploadId}/approve`, {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    // Reload uploads to reflect changes
+                    await loadUploads();
+                } else {
+                    alert('Onaylama sırasında hata oluştu.');
+                }
+            } catch (error) {
+                alert('Onaylama sırasında hata oluştu.');
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalUploads').textContent = uploads.length;
+            document.getElementById('approvedUploads').textContent = uploads.filter(u => u.is_approved).length;
+            document.getElementById('totalContacts').textContent = contacts.length;
+            document.getElementById('unreadContacts').textContent = contacts.filter(c => !c.is_read).length;
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Bulk download function
+        async function downloadAll() {
+            try {
+                const button = document.querySelector('.bulk-download');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Hazırlanıyor...';
+                button.disabled = true;
+
+                // Create download link
+                const link = document.createElement('a');
+                link.href = '/api/admin/download-all';
+                link.download = `wedding-photos-${new Date().toISOString().split('T')[0]}.zip`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Reset button after delay
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 3000);
+
+            } catch (error) {
+                console.error('Toplu indirme hatası:', error);
+                alert('Toplu indirme sırasında hata oluştu.');
+            }
+        }
+
+        // Individual file download
+        function downloadFile(uploadId) {
+            try {
+                const link = document.createElement('a');
+                link.href = `/api/admin/download/${uploadId}`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error('Dosya indirme hatası:', error);
+                alert('Dosya indirme sırasında hata oluştu.');
+            }
+        }
+
+        // Refresh uploads
+        function refreshUploads() {
+            loadUploads();
+            updateStats();
+        }
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUploads();
+            loadContacts();
+            updateStats();
+            showTab('uploads');
+        });
+
+        // Add Font Awesome for icons
+        const fontAwesome = document.createElement('link');
+        fontAwesome.rel = 'stylesheet';
+        fontAwesome.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
+        document.head.appendChild(fontAwesome);
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            loadUploads();
+            loadContacts();
+        }, 30000);
+    </script>
+</body>
+</html>
+
